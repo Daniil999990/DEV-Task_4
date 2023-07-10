@@ -1,33 +1,23 @@
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseInitService {
     public static void main(String[] args) {
-        String initScriptPath = "/Users/daniil/IdeaProjects/DEV-Task_4/src/main/resources/sql/init_db.sql";
-
-        try {
-            String sql = readSqlFile(initScriptPath);
-            executeSql(sql);
-            System.out.println("Вірно.");
+        StringBuilder result = new StringBuilder();
+        try (FileReader reader = new FileReader("src/main/resources/sql/init_db.sql")) {
+            int c;
+            while ((c = reader.read()) != -1) {
+                result.append((char) c);
+            }
+            System.out.println(result);
+            Connection connection = Database.getInstance().getConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(result.toString());
         } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static String readSqlFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        return Files.readString(path);
-    }
-
-    private static void executeSql(String sql) throws SQLException {
-        try (Connection connection = Database.getInstance().getConnection();
-             Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
+            throw new RuntimeException(e);
         }
     }
 }

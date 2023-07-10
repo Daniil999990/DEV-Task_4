@@ -3,17 +3,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private static final String DB_URL = "jdbc:h2:~/test";
-    private static final String DB_USER = "sa";
-    private static final String DB_PASSWORD = "";
+    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String USERNAME = "myname";
+    private static final String PASSWORD = "mysecretpassword";
 
     private static Database instance;
-    private Connection connection;
 
     private Database() {
         try {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        } catch (SQLException e) {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -25,7 +24,7 @@ public class Database {
         return instance;
     }
 
-    public Connection getConnection() {
-        return connection;
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
     }
 }

@@ -1,28 +1,16 @@
 plugins {
     id 'java'
-    id 'application'
 }
+
+group 'com.example'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:31.1-jre'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
-    implementation 'com.h2database:h2:1.4.200'
-}
+    implementation 'org.postgresql:postgresql:42.3.1'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
 
-application {
-    mainClass = 'dev.task_4.App'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

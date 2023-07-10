@@ -1,8 +1,8 @@
-public class MaxProjectCountClient {
+public class MaxProjectsClient {
     private String name;
     private int projectCount;
 
-    public MaxProjectCountClient(String name, int projectCount) {
+    public MaxProjectsClient(String name, int projectCount) {
         this.name = name;
         this.projectCount = projectCount;
     }
