@@ -1,3 +1,5 @@
+package DTO;
+
 public class MaxSalaryWorker {
     private String name;
     private int salary;

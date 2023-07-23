@@ -1,5 +1,12 @@
 plugins {
     id 'java'
+    id 'org.flywaydb.flyway' version '8.0.3'
+}
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/postgres'
+    user = 'myname'
+    password = 'mysecretpassword'
+    locations = ['classpath:db/migration']
 }
 
 group 'com.example'

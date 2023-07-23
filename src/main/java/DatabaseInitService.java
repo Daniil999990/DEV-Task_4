@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class DatabaseInitService {
     public static void main(String[] args) {
         StringBuilder result = new StringBuilder();
-        try (FileReader reader = new FileReader("src/main/resources/sql/init_db.sql")) {
+        try (FileReader reader = new FileReader("src/main/resources/sql/V1__init_db.sql")) {
             int c;
             while ((c = reader.read()) != -1) {
                 result.append((char) c);

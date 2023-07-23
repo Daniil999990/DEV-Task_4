@@ -1,3 +1,5 @@
+package DTO;
+
 public class ProjectPrice {
     private String name;
     private int price;
