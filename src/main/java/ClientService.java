@@ -1,29 +1,22 @@
 import DTO.Client;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClientService {
-    private Map<Long, Client> clients;
-    private long nextId;
+    private final ClientRepository clientRepository;
 
-    public ClientService() {
-        this.clients = new HashMap<>();
-        this.nextId = 1;
+    public ClientService(Database clientRepository) {
+        this.clientRepository = (ClientRepository) clientRepository;
     }
 
     public long create(String name) {
         validateName(name);
-        long id = nextId++;
-        Client client = new Client(id, name);
-        clients.put(id, client);
-        return id;
+        Client client = new Client(0, name);
+        return clientRepository.create(client);
     }
 
     public String getById(long id) {
-        Client client = clients.get(id);
+        Client client = clientRepository.getById(id);
         if (client == null) {
             throw new IllegalArgumentException("Client not found with id: " + id);
         }
@@ -32,31 +25,28 @@ public class ClientService {
 
     public void setName(long id, String name) {
         validateName(name);
-        Client client = clients.get(id);
+        Client client = clientRepository.getById(id);
         if (client == null) {
             throw new IllegalArgumentException("Client not found with id: " + id);
         }
         client.setName(name);
+        clientRepository.update(client);
     }
 
     public void deleteById(long id) {
-        if (!clients.containsKey(id)) {
+        if (clientRepository.getById(id) == null) {
             throw new IllegalArgumentException("Client not found with id: " + id);
         }
-        clients.remove(id);
+        clientRepository.deleteById(id);
     }
 
     public List<Client> listAll() {
-        return new ArrayList<>(clients.values());
+        return clientRepository.listAll();
     }
 
     private void validateName(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
-        }
-
-        if (name.length() < 3 || name.length() > 50) {
-            throw new IllegalArgumentException("Name length must be between 3 and 50 characters");
         }
     }
 }
